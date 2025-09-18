@@ -137,6 +137,23 @@ void Desenha(void)
     drawTree();
     glPopMatrix();
 
+    glPushMatrix();
+    glTranslatef(-5.0f, 0.0f, -5.0f);
+    drawTree();
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glTranslatef(-5.0f, 0.0f, 5.0f);
+    drawTree();
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glTranslatef(5.0f, -0.5f, 5.0f);
+    drawTree();
+    glPopMatrix();
+
     drawCharacter();
 
     drawRotatingCube();
