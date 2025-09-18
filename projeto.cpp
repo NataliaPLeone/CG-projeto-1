@@ -27,10 +27,14 @@ GLfloat gravity = -0.05f;
 // GLfloat slideSpeed = 0.1f;
 GLfloat cubeRotationAngle = 0.0f;
 
+
+void updatemouse(float newx, float newy){
+
+}
 // --- Drawing Functions ---
 void drawPlane()
 {
-    glColor3f(0.0f, 0.5f, 0.0f); // Gray color
+    glColor3f(0.0f, 0.93f, 0.0f); // Gray color
     glBegin(GL_QUADS);
     for (float x = -20.0f; x < 20.0f; x += 1.0f)
     {
@@ -108,8 +112,12 @@ void drawRotatingCube()
 // --- Main Rendering and Camera Logic ---
 void Desenha(void)
 {
+    GLfloat lightPosition[] = { 10.0f, 15.0f, 10.0f, 1.0f };
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
     // Calculate the camera's target point based on mouse rotation
     GLfloat targetX = charX + cos(cameraYaw * M_PI / 180.0f);
@@ -194,7 +202,10 @@ void mouseMotion(int x, int y)
 
     float sensitivity = 0.2f;
     cameraYaw += xoffset * sensitivity;
+    
     cameraPitch += yoffset * sensitivity;
+    updatemouse(xoffset,yoffset);
+
 
     if (cameraPitch > 89.0f)
     {
@@ -250,7 +261,7 @@ void AlteraTamanhoJanela(GLint largura, GLint altura)
 
 void Inicializa(void)
 {
-    glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.9f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);       // Enable lighting
     glEnable(GL_COLOR_MATERIAL); // Enable color material
