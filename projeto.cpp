@@ -23,8 +23,9 @@ bool isJumping = false;
 GLfloat jumpVelocity = 0.0f;
 GLfloat gravity = -0.05f;
 
-GLfloat animatedCubeX = -10.f;
-GLfloat slideSpeed = 0.1f;
+// GLfloat animatedCubeX = -10.f;
+// GLfloat slideSpeed = 0.1f;
+GLfloat cubeRotationAngle = 0.0f;
 
 // --- Drawing Functions ---
 void drawPlane()
@@ -94,11 +95,12 @@ void drawCharacter()
     glPopMatrix();
 }
 
-void drawSlidingCube()
+void drawRotatingCube()
 {
-    glColor3f(1.0f, 0.f, 0.f);
+    glColor3f(1.0f, 0.f, 0.f); // Red color
     glPushMatrix();
-    glTranslatef(animatedCubeX, 0.5f, 0.5f);
+    glTranslatef(0.0f, 2.0f, -5.0f);
+    glRotatef(cubeRotationAngle, 1.0f, 1.0f, 0.0f);
     glutSolidCube(1.0f);
     glPopMatrix();
 }
@@ -129,7 +131,7 @@ void Desenha(void)
 
     drawCharacter();
 
-    drawSlidingCube();
+    drawRotatingCube();
 
     glutSwapBuffers();
 }
@@ -161,15 +163,18 @@ void update(int value)
     glutTimerFunc(16, update, 0);
 }
 
-void animateCube(int value)
+void animateRotatingCube(int value)
 {
-    animatedCubeX += slideSpeed;
-    if (animatedCubeX > 10.f || animatedCubeX < -10.f)
+    // Increment the rotation angle for a spinning effect
+    cubeRotationAngle += 1.0f;
+    if (cubeRotationAngle > 360.0f)
     {
-        slideSpeed *= -1;
+        cubeRotationAngle -= 360.0f;
     }
-    glutPostRedisplay();
-    glutTimerFunc(16, animateCube, 0);
+
+    glutPostRedisplay(); // Redraw the scene
+    // Call the timer function again to continue the animation
+    glutTimerFunc(16, animateRotatingCube, 0);
 }
 
 // minecraft camera follows mouse function - craft
@@ -267,7 +272,7 @@ int main(int argc, char **argv)
     Inicializa();
 
     glutTimerFunc(16, update, 0);
-    glutTimerFunc(16, animateCube, 0);
+    glutTimerFunc(16, animateRotatingCube, 0);
 
     glutMainLoop();
     return 0;
